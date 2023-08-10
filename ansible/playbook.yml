@@ -1,0 +1,46 @@
+- hosts: all
+  vars_files:
+    - vars.yml
+  become: true
+  tasks:
+    - name: Install docker gpg key
+      apt_key:
+        url: "https://download.docker.com/linux/ubuntu/gpg"
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        state: present
+
+    - name: Add docker repo
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        update_cache: yes
+
+    - name: Install docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Add gitlab-runner user to docker group
+      user:
+        name: gitlab-runner
+        append: yes
+        groups: docker
+
+    - name: Download gitlab-runner sh script
+      ansible.builtin.get_url:
+        url: https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh
+        dest: /tmp/gitlab-runner-setup.sh
+        mode: 755
+
+    - name: Execute gitlab-runner sudo script
+      ansible.builtin.shell:
+        cmd: cat /tmp/gitlab-runner-setup.sh | bash
+
+    - name: Install gitlab-runner from apt-repository
+      ansible.builtin.apt:
+        name: gitlab-runner
+        state: present
+        update_cache: yes

@@ -1,0 +1,5 @@
+[all]
+158.160.118.114 # Replace with your ip
+
+[all:vars]
+ansible_user=ubuntu

@@ -44,3 +44,13 @@
         name: gitlab-runner
         state: present
         update_cache: yes
+
+    - name: Register new gitlab-runner and mount docker.sock
+      ansible.builtin.shell: |
+        sudo gitlab-runner register -n \
+          --url "https://gitlab.com/" \
+          --registration-token {{ registration_token }} \
+          --executor docker \
+          --description {{ description }} \
+          --docker-image "docker:20.10.16" \
+          --docker-volumes /var/run/docker.sock:/var/run/docker.sock

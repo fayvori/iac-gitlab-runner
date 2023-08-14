@@ -1,5 +1,5 @@
 [all]
-158.160.118.114 # Replace with your ip
+158.160.115.161 # Replace with your ip
 
 [all:vars]
 ansible_user=ubuntu

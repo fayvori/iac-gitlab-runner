@@ -122,6 +122,7 @@ So by running `ansible-playbook` command it will do this:
 - Downloading gitlab runner sh script into `/tmp/gitlab-runner-setup.sh` and gives it `755` permissions
 - Execute `gitlab-runner-setup.sh` script using bash
 - Installing `gitlab-runner` binary using apt
+- Register a new Gitlab Runner
 
 For obtaining this creds let's jump into GitLab website and register a new runner (create a new empty repo and go to the **Settings > CI/CD > Runners > New project runner**)
 
@@ -133,18 +134,16 @@ Now we can copy our registration token
 
 ![gitlab registration token](./docs/images/gitlab_register_token.jpg)
 
+Edit `vars.yml` file and fill it with your `description` and your `registration_token`
+
+![vars.yml file](./docs/images/ansible_vars.png)
+
 Then execute `ansible-playbook -i hosts playbook.yml`
 
 The output should be like this:
 
-![ansible output](./docs/images/ansible_output.png)
-
-Now ssh to the our server and register a new runner
-
-![gitlab register](./docs/images/ansible_register.jpg)
+![ansible output](./docs/images/ansible-output.jpeg)
 
 Finally our gitlab-runner is up and running
 
-![gitlab runner in web](./docs/images/gitlab_runners.png)
-
-Thanks for reading!
+![gitlab runner in web](./docs/images/gitlab-runners.jpeg)
